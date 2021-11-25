@@ -25,5 +25,3 @@ and Red Channel Correction. This is an python implementation of Chongyi Li et.al
 ## Contributors
 * [Bhumika Sethi](https://github.com/sethi-bhumika)
 * [Jaglike Makkar](https://github.com/jaglikemakkar)
-
-> Paani re paani tera rang kaisa?!
