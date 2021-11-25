@@ -12,6 +12,15 @@ def estimate_t(I, B, window):
 
     #t(x)=1−minc∈{g,b}(minx∈Ω(Ic(x)Bc))
     #todo--- doubt!
+    for i, j in np.ndindex(I.shape[0], I.shape[1]):
+        t[i, j, 0] = 1 - np.min(paddedTemp[i:i+window, j:j+window, 0])      #t_blue
+        t[i, j, 1] = 1 - np.min(paddedTemp[i:i+window, j:j+window, 1])      #t_green
+        
+        #according to me, as medium transmission maps of b and g channels are assumed to be identical
+        #tmp = min(np.min(paddedTemp[i:i+window, j:j+window, 0]), np.min(paddedTemp[i:i+window, j:j+window, 1]))
+        #t[i, j, 0] = 1 - tmp
+        #t[i, j, 1] = 1 - tmp
+
     return t
     
 
