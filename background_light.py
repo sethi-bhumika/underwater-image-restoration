@@ -49,7 +49,7 @@ def getMaxChannelLocal(img, window):
     return imgChannel
 
 def getLargestDiff(img, window):
-    imgN = img/255  #check bpp + check why normalization here
+    imgN = img/255  #check why normalization here
     greater_of_GB = maxChannel(imgN)
     max_GB = getMaxChannelLocal(greater_of_GB, window)
     redChannel = imgN[:,:,2]
