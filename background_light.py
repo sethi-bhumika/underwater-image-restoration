@@ -21,7 +21,7 @@ def maxChannel(img):
     for i in range(m):
         for j in range(n):
             maxChannelImg = max(img.item((i, j, 0)), img.item((i, j, 1)))
-    return maxChannel
+    return maxChannelImg
 
 def getMaxChannelLocal(img, window):
     m, n = (img.shape[0], img.shape[1])
