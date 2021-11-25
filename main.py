@@ -33,7 +33,7 @@ for imgName in images:
         img = (img - i_min) / (i_max - i_min) * 255
 
         print("Starting GB Dehazing...")
-        restored_gb = GBDehaze(img, windowSize)
+        restored_gb = GBDehaze(img, windowSize, resultPath, prefix)
 
         cv2.imwrite(resultPath + '\\' + prefix + '_GBDehazed.jpg', restored_gb)
         
@@ -47,11 +47,10 @@ for imgName in images:
 
         print("Applying Adaptive Exposure Map...")
         restored = applyAdaptiveMap(restored, S_x)
-
-        print("=======>" , resultPath + '\\' + prefix + '_final.jpg')
         
         cv2.imwrite(resultPath + '\\' + prefix + '_final.jpg', restored)
         
+        print("Completed image : ", imgName)
 endTime = datetime.now()
 print("Time taken : ", endTime - startTime)
 print("Time executed = ", datetime.now())

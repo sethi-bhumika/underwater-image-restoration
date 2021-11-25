@@ -17,11 +17,7 @@ def getRestoredChannel(I, t, B):
     return J
 
 
-folder = "C:\\Academics\\5th Sem\\CS517 DIPA\\Project\\underwater-image-restoration"
-imagesPath = folder + '\\sample_images'
-resultPath = folder + '\\result'
-
-def GBDehaze(img, window):
+def GBDehaze(img, window, resultPath, prefix):
     print("Calculating Largest Difference between channels...")
     largestDiff = getLargestDiff(img, window)
     print("Getting Background Light...")
@@ -29,11 +25,11 @@ def GBDehaze(img, window):
     print("Estimating medium transmission map...")
     t_map = estimate_t(img, B_RGB, window)
     
-    cv2.imwrite(resultPath +  '\\transmission.jpg', np.uint8(t_map[:, :, 0] * 255))
+    cv2.imwrite(resultPath +  '\\' + prefix + '_transmission.jpg', np.uint8(t_map[:, :, 0] * 255))
 
     print("Refining transmission map... ")
     t_map = refine_t(t_map, img)
-    cv2.imwrite(resultPath +  '\\refined_transmission.jpg', np.uint8(t_map[:, :, 0] * 255))
+    cv2.imwrite(resultPath +  '\\' + prefix + '_refined_transmission.jpg', np.uint8(t_map[:, :, 0] * 255))
 
     print("Restoring GB channels...")
     recovered_gb = getRestoredChannel(img, t_map, B_RGB)
