@@ -3,4 +3,4 @@
 To -do
 -refined transmission map function
 -complete BG_dehazing
--Rcorrection
+-main.py and test
