@@ -5,6 +5,11 @@ import cv2
 
 class GuidedFilter:
     def __init__(self, img, r, eps):
+
+        # Changing data type of image to float
+        if img.dtype != np.float32:
+            img = (1.0 / 255.0) * np.float32(img)
+
         self.img = img
         self.r = 2*r + 1
         self.eps = eps
@@ -106,13 +111,18 @@ class GuidedFilter:
 
         return a_r_mean, a_g_mean, a_b_mean, b_mean
     
-    def filter(self, img):
+    def filter(self, p):
         # Converting image to float
-        if img.dtype != np.float32:
-            img = (1.0 / 255.0) * np.float32(img)
+        # if p.dtype != np.float32:
+        #     p = np.float32(p)
         
+        img = self.img
+
         # Computing coefficients a_k & b_k
-        a_r_mean, a_g_mean, a_b_mean, b_mean = self.getCoefficients(img)
+        a_r_mean, a_g_mean, a_b_mean, b_mean = self.getCoefficients(p)
+
+        # print("Coefficients : ", a_r_mean, a_g_mean, a_b_mean, b_mean)
+
         img_r, img_g, img_b = img[:,:,0], img[:,:,1], img[:,:,2]
 
         # Finding ouput image q = a_k * I_i + b_k

@@ -20,20 +20,22 @@ def maxChannel(img):
     maxChannelImg = np.zeros((m, n), dtype = np.float32)
     for i in range(m):
         for j in range(n):
-            maxChannelImg = max(img.item((i, j, 0)), img.item((i, j, 1)))
+            maxChannelImg[i,j] = max(img.item((i, j, 0)), img.item((i, j, 1)))
     return maxChannelImg
 
 def getMaxChannelLocal(img, window):
+    # m = height, n = width
     m, n = (img.shape[0], img.shape[1])
-    imgChannel = np.zeros((m, n), dtype = np.float32)
+    imgChannel = np.zeros((m, n), dtype = np.float16)
 
     #pad the image to get a modified size to accomodate patches
     padSize = int((window - 1)/2)
-    h = m+padSize-1
-    w = n+padSize-1
+    h = m+window-1
+    w = n+window-1
     imgChannelTemp = np.zeros((h, w))
 
     #copy the img as initialization
+    imgChannelTemp[:, :] = 0
     imgChannelTemp[padSize:h-padSize, padSize:w-padSize] = img
 
     #find local max channel
@@ -70,7 +72,7 @@ def backgroundLight(img, D):
             arg_val_list.append(temp)
 
     #sort arg_list to get the argument corresponding to min D
-    arg_val_list = sorted(arg_val_list, key = lambda arg_val: arg_val.f, everse = False)
+    arg_val_list = sorted(arg_val_list, key = lambda arg_val: arg_val.f)
     #avg over blue and green channels
     min_pair = arg_val_list[0]
     B = np.mean([img[min_pair.x, min_pair.y, 0], img[min_pair.x, min_pair.y, 1]])
@@ -80,6 +82,4 @@ def backgroundLight(img, D):
     B_RGB = img[min_pair.x, min_pair.y, :]
 
     return B, B_GB, B_RGB
-
-
 

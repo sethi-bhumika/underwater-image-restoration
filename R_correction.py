@@ -22,6 +22,7 @@ def correctRChannel(img, J_GB):
 
     #recovered red channel
     Rrec = og_red * delta
+    Rrec = (Rrec - Rrec.min()) / (Rrec.max() - Rrec.min())
     Rrec = Rrec * 255   #scale back to 255
     Rrec = np.clip(Rrec, 0, 255)
     J_GBR[:, :, 2] = Rrec

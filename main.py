@@ -6,17 +6,17 @@ import natsort
 from background_light import getLargestDiff, backgroundLight
 from transmission_map import estimate_t, refine_t
 from adaptive_exposure_map import adaptiveExposureMap, applyAdaptiveMap
-from BG_dehazing import BGDehaze
-
+from GB_dehazing import GBDehaze
+from R_correction import correctRChannel
 
 startTime = datetime.now()
 
-folder = folder = "C:\\Academics\\5th Sem\\CS517 DIPA\\Project\\Underwater Image Color Restoration\\GBdehazingRCorrection"
-imagesPath = folder + '\\images'
+folder = "C:\\Academics\\5th Sem\\CS517 DIPA\\Project\\underwater-image-restoration"
+imagesPath = folder + '\\sample_images'
 resultPath = folder + '\\result'
 
 images = os.listdir(imagesPath)
-
+windowSize = 9
 for imgName in images:
     imgPath = imagesPath + '\\' + imgName
     prefix = imgName[:imgName.index('.')]
@@ -32,10 +32,26 @@ for imgName in images:
         i_max = img.max()
         img = (img - i_min) / (i_max - i_min) * 255
 
-        # finding largest difference between 3 color channels
-        largestDiff = getLargestDiff(img, 9)
-        print("Largest Difference : ", largestDiff)
+        print("Starting GB Dehazing...")
+        restored_gb = GBDehaze(img, windowSize)
 
-        bgLight, bgLightGB, bgLightRGB = backgroundLight(largestDiff, img)
+        cv2.imwrite(resultPath + '\\' + prefix + '_GBDehazed.jpg', restored_gb)
+        
+        print("Starting R channel correction...")
+        restored = correctRChannel(img, restored_gb)
 
-        print("Background Light RGB: ", bgLightRGB)
+        cv2.imwrite(resultPath + '\\' + prefix + '_RCorrection.jpg', restored)
+
+        print("Generating Adaptive Exposure Map...")
+        S_x = adaptiveExposureMap(img, restored)
+
+        print("Applying Adaptive Exposure Map...")
+        restored = applyAdaptiveMap(restored, S_x)
+
+        print("=======>" , resultPath + '\\' + prefix + '_final.jpg')
+        
+        cv2.imwrite(resultPath + '\\' + prefix + '_final.jpg', restored)
+        
+endTime = datetime.now()
+print("Time taken : ", endTime - startTime)
+print("Time executed = ", datetime.now())

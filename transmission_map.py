@@ -33,6 +33,7 @@ def refine_t(t, img):
     eps = pow(10,-3)
 
     # creating object of class GuidedFilter
+
     myfilter = GuidedFilter(img, radius, eps)
     t0 = t[:,:,0]
     t1 = t[:,:,1]

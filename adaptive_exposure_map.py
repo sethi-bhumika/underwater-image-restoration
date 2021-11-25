@@ -3,16 +3,16 @@ import cv2
 from guidedFilter import GuidedFilter
 
 
-def adaptiveExposureMap(img, scene):
+def adaptiveExposureMap(img, restored):
     # Constants
     Lambda = 0.3
 
     img = np.uint8(img)
-    scene = np.uint8(scene)
+    restored = np.uint8(restored)
     
     # Changing color space of images from BGR to luma-chroma
     Yi_rb = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
-    Yj_rb = cv2.cvtColor(scene, cv2.COLOR_BGR2YCrCb)
+    Yj_rb = cv2.cvtColor(restored, cv2.COLOR_BGR2YCrCb)
 
     # Normalizing images
     norm_Yi_rb = (Yi_rb-Yi_rb.min()) / (Yi_rb.max()-Yi_rb.min())
@@ -49,21 +49,23 @@ def adaptiveExposureMap(img, scene):
     return S_x
 
 
-def applyAdaptiveMap(scene, S_x):
+def applyAdaptiveMap(restored, S_x):
 
     # Constants
     Min = 0
     Max = 255
 
     # Changing datatype of restored image to float
-    if scene.dtype != np.float64:
-        scene = np.float64(scene)
+    if restored.dtype != np.float64:
+        restored = np.float64(restored)
 
     # Applying Adaptive map filter
-    scene = scene * S_x
+    restored = restored * S_x
 
     # Clipping restored image values to [0,255]
-    scene = np.clip(scene, Min, Max)
+    restored = np.clip(restored, Min, Max)
 
     # Changing datatype back to uint8
-    scene = np.uint8(scene)
+    restored = np.uint8(restored)
+
+    return restored
