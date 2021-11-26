@@ -2,9 +2,6 @@ import os
 from datetime import datetime
 import numpy as np
 import cv2
-import natsort
-from background_light import getLargestDiff, backgroundLight
-from transmission_map import estimate_t, refine_t
 from adaptive_exposure_map import adaptiveExposureMap, applyAdaptiveMap
 from GB_dehazing import GBDehaze
 from R_correction import correctRChannel
