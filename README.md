@@ -21,7 +21,7 @@ and Red Channel Correction. This is an python implementation of Chongyi Li et.al
 ## References
 * [Paper](https://www.researchgate.net/publication/304360662_Single_underwater_image_restoration_by_blue-green_channels_dehazing_and_red_channel_correction)
 * [Guided Filter](http://kaiminghe.com/publications/eccv10guidedfilter.pdf)
-* [Code]https://github.com/wangyanckxx/Single-Underwater-Image-Enhancement-and-Color-Restoration
+* [Code](https://github.com/wangyanckxx/Single-Underwater-Image-Enhancement-and-Color-Restoration)
 
 ## Contributors
 * [Bhumika Sethi](https://github.com/sethi-bhumika)
